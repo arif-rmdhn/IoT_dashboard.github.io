@@ -320,7 +320,7 @@ else if ($page == 'guru') {
                     <thead>
                         <tr>
                             <th>No </th>
-                            <th>Nama</th>
+                            <th>Nama Topik</th>
                             <!-- <th>Keterangan</th> -->
                             <th>Aksi</th>
                         </tr>

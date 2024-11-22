@@ -96,7 +96,7 @@
                             ">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
-                                    Data Guru
+                                    Data Topik
                                 </p>
                             </a>
                         </li>
