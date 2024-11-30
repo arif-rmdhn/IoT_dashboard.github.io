@@ -6,136 +6,113 @@ class M_admin extends CI_Model
     {
         $this->load->database();
     }
-    //=============================== SANTRI ===============================
-    public function dt_santri()
+    
+    // //=============================== DEIVICE_ID ===============================
+    public function dropdown_gh()
     {
-        $this->db->select('s.id_santri, s.nama_santri, k.nama_kelas, s.nama_alias, g.nama_guru');
-        $this->db->from('santri s');
-        $this->db->join('guru g', 's.id_guru = g.id_guru', 'left');
-        $this->db->join('kelas k', 'k.id_kelas = s.id_kelas', 'left');
-        $query = $this->db->get();
-        return $query->result_array();
+        return [
+            '-Pilih-' => '-Pilih-',
+            1 => 'Greenhouse 1',
+            2 => 'Greenhouse 2',
+            3 => 'Greenhouse 3',
+            4 => 'Greenhouse 4',
+            5 => 'Greenhouse 5'
+        ];
+    }
+    public function dropdown_node()
+    {
+        return [
+            '-Pilih-' => '-Pilih-',
+            1 => 'Node 1',
+            2 => 'Node 2',
+            3 => 'Node 3'
+        ];
     }
 
-    public function dt_santri_detil($id)
+    public function dropdown_device()
     {
-        $this->db->select('s.id_santri, s.nama_santri, k.nama_kelas, s.nama_alias, g.nama_guru');
-        $this->db->from('santri s');
-        $this->db->join('guru g', 's.id_guru = g.id_guru', 'left');
-        $this->db->join('kelas k', 'k.id_kelas = s.id_kelas', 'left');
-        $this->db->where('id_santri', $id);
-        $query = $this->db->get();
-        return $query->row_array();
-    }
-
-    public function dt_santri_tambah()
-    {
-        $data = array(
-            'nama_santri' => $this->input->post('nama_santri'),
-            'nama_alias' => $this->input->post('nama_alias'),
-            'id_guru' => $this->input->post('id_guru'),
-            'id_kelas' => $this->input->post('id_kelas')
-        );
-        return $this->db->insert('santri', $data);
-    }
-
-    public function dt_santri_edit($id)
-    {
-        $data = array(
-            'nama_santri' => $this->input->post('nama_santri'),
-            'nama_alias' => $this->input->post('nama_alias'),
-            'id_guru' => $this->input->post('id_guru'),
-            'id_kelas' => $this->input->post('id_kelas')
-        );
-        $this->db->where('id_santri', $id);
-        return $this->db->update('santri', $data);
-    }
-
-    //=============================== GURU ===============================
-    public function dropdown_guru()
-    {
-        $query = $this->db->get('guru');
+        $query = $this->db->get('device_list');
         $result = $query->result();
 
-        $id_guru = array('-Pilih-');
-        $nama_guru = array('-Pilih-');
+        $device_id = array('-Pilih-');
+        $device_name = array('-Pilih-');
 
         for ($i = 0; $i < count($result); $i++) {
-            array_push($id_guru, $result[$i]->id_guru);
-            array_push($nama_guru, $result[$i]->nama_guru);
+            array_push($device_id, $result[$i]->device_id);
+            array_push($device_name, $result[$i]->device_id);
         }
-        return array_combine($id_guru, $nama_guru);
-    }
+        return array_combine($device_id, $device_name);
+    }    
 
-    public function dt_guru($id = FALSE)
+    public function dt_device($id = FALSE)
     {
-        $this->db->select('s.id_guru, s.nama_guru');
-        $this->db->from('guru s');
-        $query = $this->db->get();
+        $query = $this->db->get('device_list');
         return $query->result_array();
     }
-
-    public function guru_tambah()
+    public function dt_device_tambah()
     {
         $data = array(
-            'nama_guru' => $this->input->post('nama_guru'),
+            'device_id' => $this->input->post('device_id'),
+            'gh_number' => $this->input->post('gh_number'),
+            'node_id' => $this->input->post('node_id')
         );
-
-        return $this->db->insert('guru', $data);
+        return $this->db->insert('device_list', $data);
     }
 
-    public function dt_guru_edit($id)
+    public function dt_device_edit($id)
     {
         $data = array(
-            'nama_guru' => $this->input->post('nama_guru'),
+            'device_id' => $this->input->post('device_id'),
+            'gh_number' => $this->input->post('gh_number'),
+            'node_id' => $this->input->post('node_id'),
         );
-        $this->db->where('id_guru', $id);
-        return $this->db->update('guru', $data);
+        $this->db->where('device_id', $id);
+        return $this->db->update('device_list', $data);
     }
 
-    //=============================== kelas ===============================
-    public function dropdown_kelas()
+    //=============================== TOPIC ===============================
+    public function dropdown_topic()
     {
-        $query = $this->db->get('kelas');
+        $query = $this->db->get('topik');
         $result = $query->result();
 
-        $id_kelas = array('-Pilih-');
-        $nama_kelas = array('-Pilih-');
+        $id_topic = array('-Pilih-');
+        $nama_topic = array('-Pilih-');
 
         for ($i = 0; $i < count($result); $i++) {
-            array_push($id_kelas, $result[$i]->id_kelas);
-            array_push($nama_kelas, $result[$i]->nama_kelas);
+            array_push($id_topic, $result[$i]->id);
+            array_push($nama_topic, $result[$i]->topic_name);
         }
-        return array_combine($id_kelas, $nama_kelas);
+        return array_combine($id_topic, $nama_topic);
     }
 
-    public function dt_kelas($id = FALSE)
+    public function dt_topic($id = FALSE)
     {
-        $this->db->select('s.id_kelas, s.nama_kelas');
-        $this->db->from('kelas s');
+        $this->db->select('topic_name, id');
+        $this->db->from('topik');
         $query = $this->db->get();
         return $query->result_array();
     }
 
-    public function kelas_tambah()
+    public function topik_tambah()
     {
         $data = array(
-            'nama_kelas' => $this->input->post('nama_kelas'),
+            'topic_name' => $this->input->post('topic_name'),
         );
 
-        return $this->db->insert('kelas', $data);
+        return $this->db->insert('topik', $data);
     }
 
-    public function dt_kelas_edit($id)
+    public function dt_topik_edit($id)
     {
         $data = array(
-            'nama_kelas' => $this->input->post('nama_kelas'),
+            'topic_name' => $this->input->post('topic_name'),
         );
-        $this->db->where('id_kelas', $id);
-        return $this->db->update('kelas', $data);
+        $this->db->where('id', $id);
+        return $this->db->update('topik', $data);
     }
-    //=============================== DATA SANTRI PER KELAS===============================
-    public function dt_santri_per_kelas($id)
+    //=============================== DATA LOGGING SENSOR===============================
+    public function dt_sensor_device($id)
     {
         $this->db->select('s.id_santri, s.nama_santri, s.nama_alias, g.nama_guru');
         $this->db->from('santri s');
@@ -144,16 +121,60 @@ class M_admin extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-
-    //=============================== DATA SUMBANGAN ===============================
-    public function dt_sumbangan()
+    public function dt_sensor($id)
     {
-        $this->db->select('*');
-        $this->db->from('sumbangan smb');
-        $this->db->join('santri s', 's.id_santri = smb.id_santri', 'left');
-        $this->db->join('kelas k', 'k.id_kelas = s.id_kelas', 'left');
-        $this->db->join('users u', 'u.username = smb.username', 'left');
-        $query = $this->db->get();
-        return $query->result_array();
+        // Query untuk mendapatkan gh_number berdasarkan device_id
+        $this->db->select('gh_number');
+        $this->db->from('device_list');
+        $this->db->where('device_id', $id);
+        $gh_v_query = $this->db->get();
+    
+        // Periksa apakah data ditemukan
+        if ($gh_v_query->num_rows() > 0) {
+            $gh_v = $gh_v_query->row(); // Ambil satu baris data sebagai objek
+    
+            // Pastikan gh_number valid
+            if (isset($gh_v->gh_number) && !empty($gh_v->gh_number)) {
+                $tabel = 'greenhouse_' . $gh_v->gh_number; // Nama tabel dinamis
+    
+                // Ambil data dari tabel dinamis
+                $this->db->select('*');
+                $this->db->from($tabel);
+                $this->db->where('device_id', $id);
+                $query = $this->db->get();
+                return $query->result_array(); // Kembalikan data dalam bentuk array
+            }
+        }
+    
+        // Jika tidak ada data atau gh_number tidak valid, kembalikan array kosong
+        return [];
     }
+
+    public function sensor_del($id){
+        $this->db->select('gh_number');
+        $this->db->from('device_list');
+        $this->db->where('device_id', $id);
+        $gh_v_query = $this->db->get();
+    
+        // Periksa apakah data ditemukan
+        if ($gh_v_query->num_rows() > 0) {
+            $gh_v = $gh_v_query->row(); // Ambil satu baris data sebagai objek
+    
+            // Pastikan gh_number valid
+            if (isset($gh_v->gh_number) && !empty($gh_v->gh_number)) {
+                $tabel = 'greenhouse_' . $gh_v->gh_number; // Nama tabel dinamis
+    
+                // Ambil data dari tabel dinamis
+                $this->db->select('*');
+                $this->db->from($tabel);
+                $this->db->delete($tabel, array('device_id' => $id));
+                if (!$this->db->affected_rows())
+                    return (FALSE);
+                else
+                    return (TRUE);
+            }
+        }
+
+    }
+
 }

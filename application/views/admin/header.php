@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Page</title>
-
+    <link rel="icon" type="image/x-icon" href="assets/img/PENS.ico">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -23,8 +23,12 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/adminlte/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style_umum.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" type="image/x-icon" href="assets/img/PENS.ico">
     <style>
+    #device_{
+        cursor: pointer;
+    }
     tr td a {
         margin: 0 10px;
     }
@@ -59,7 +63,6 @@
                 </li>
 
             </ul>
-
         </nav>
         <!-- /.navbar -->
 
@@ -81,14 +84,12 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <?php
-                        $menu_master1 = array('santri', 'santri_detil', 'santri_tambah', 'santri_edit');
-                        $menu_master2 = array('guru', 'guru_detil', 'guru_tambah', 'guru_edit');
-                        $menu_master3 = array('kelas', 'kelas_detil', 'kelas_tambah', 'kelas_edit');
-                        $menu_master4 = array('sumbangan');
-                        $menu_master5 = array('list_santri_per_kelas');
+                        $menu_master1 = array('device_id', 'device_detil', 'device_tambah', 'device_edit'); // Device_Id
+                        $menu_master2 = array('topic', 'guru_detil', 'tambah_topik', 'topik_edit'); // Topic
+                        $menu_master3 = array('data_logging');
                         ?>                        
                         <li class="nav-item">
-                            <a href="<?php echo base_url('admin/guru'); ?>" class="nav-link
+                            <a href="<?php echo base_url('admin/topic'); ?>" class="nav-link
                             <?php
                             if (in_array($page, $menu_master2))
                                 echo "active";
@@ -101,45 +102,31 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url('admin/santri'); ?>" class="nav-link
+                            <a href="<?php echo base_url('admin/device_id'); ?>" class="nav-link
                             <?php
                             if (in_array($page, $menu_master1))
                                 echo "active";
                             ?>
                             ">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="nav-icon bi bi-router-fill"></i>
                                 <p>
-                                    Data Santri
+                                    Data Device_id
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?php echo base_url("admin/list_santri_per_kelas"); ?>" class="nav-link
+                            <a href="<?php echo base_url("admin/data_logging"); ?>" class="nav-link
                             <?php
-                            if (in_array($page, $menu_master5))
+                            if (in_array($page, $menu_master3))
                                 echo "active";
                             ?>
                             ">
-                                <i class="nav-icon fas fa-id-badge"></i>
+                                <i class="nav-icon bi bi-database"></i>
                                 <p>
-                                    List Santri per Kelas
+                                    Data Logging
                                 </p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?php echo base_url("admin/sumbangan"); ?>" class="nav-link 
-                            <?php
-                            if (in_array($page, $menu_master4))
-                                echo "active";
-                            ?>
-                            ">
-
-                                <i class="nav-icon fas fa-coins"></i>
-                                <p>
-                                    Sumbangan Santri
-                                </p>
-                            </a>
-                        </li>
+                        </li>                        
 
                         <li class="nav-item">
                             <a href="<?php echo base_url("login/logout"); ?>" class="nav-link">

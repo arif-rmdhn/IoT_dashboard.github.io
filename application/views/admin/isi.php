@@ -19,14 +19,14 @@ if ($page == 'home') {
                 <div class="col-lg-6 col-12">
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo $jml_santri; ?></h3>
+                            <h3><?php echo $jml_topic; ?></h3>
 
-                            <p>Jumlah Subscriber</p>
+                            <p>Jumlah Topic</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-android-people"></i>
                         </div>
-                        <a href="<?php echo base_url('admin/santri') ?>" class="small-box-footer">More info <i
+                        <a href="<?php echo base_url('admin/topic') ?>" class="small-box-footer">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -35,14 +35,14 @@ if ($page == 'home') {
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3><?php echo $jml_guru; ?></h3>
+                            <h3><?php echo $jml_device; ?></h3>
 
                             <p>Jumlah Id Device</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person"></i>
                         </div>
-                        <a href="<?php echo base_url('admin/guru') ?>" class="small-box-footer">More info <i
+                        <a href="<?php echo base_url('admin/device_id') ?>" class="small-box-footer">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -54,8 +54,8 @@ if ($page == 'home') {
 <?php
 }
 
-//==================================== SANTRI ====================================
-else if ($page == 'santri') {
+//==================================== DEVICE_ID ====================================
+else if ($page == 'device_id') {
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -71,33 +71,33 @@ else if ($page == 'santri') {
     <section class="content">
         <div class="card">
             <div class="card-body">
-                <a href=<?php echo base_url("admin/santri_tambah") ?> class="btn btn-primary"
+                <a href=<?php echo base_url("admin/device_tambah") ?> class="btn btn-primary"
                     style="margin-bottom:15px">
                     Tambah Device_id</a>
-                <table id="datatable_01" class="table table-bordered">
+                <table id="manualTable" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Id Santri</th>
-                            <th>Nama</th>
-                            <th>Kelas</th>
+                            <th id="device_" onclick="sortTable(0)">Device_Id</th>
+                            <th id="device_" onclick="sortTable(1)">Greenhouse</th>
+                            <th id="device_" onclick="sortTable(2)">Node_Id</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <?php
-                        foreach ($santri as $d) { ?>
+                        foreach ($device_id as $d) {?>
                     <tr>
-                        <td><?php echo $d['id_santri'] ?></td>
-                        <td><?php echo $d['nama_santri'] ?></td>
-                        <td><?php echo $d['nama_kelas'] ?></td>
+                        <td><?php echo $d['device_id'] ?></td>
+                        <td><?php echo $d['gh_number'] ?></td>
+                        <td><?php echo $d['node_id'] ?></td>
                         <td>
-                            <a href=<?php echo base_url("admin/santri_edit/") . $d['id_santri']; ?>> <i
+                            <a href=<?php echo base_url("admin/device_edit/") . $d['device_id']; ?>> <i
                                     class="fas fa-pencil-alt"></i> </a>
-                            <a href=<?php echo base_url("admin/santri_detil/") . $d['id_santri']; ?>>
-                                <i class="fas fa-search-plus"></i></a>
-                            <a href=<?php echo base_url("admin/santri_hapus/") . $d['id_santri']; ?>
-                                onclick="return confirm('Yakin menghapus Santri : <?php echo $d['nama_santri']; ?> ?');"
+                            <a href=<?php echo base_url("admin/device_hapus/") . $d['device_id']; ?>
+                                onclick="return confirm('Yakin menghapus Device: <?php echo $d['device_id']; ?> ?');"
                                 ;><i class="fas fa-trash-alt"></i></a>
-
+                            <a href=<?php echo base_url("admin/data_hapus/") . $d['device_id']; ?>
+                                onclick="return confirm('Yakin menghapus Data: <?php echo $d['device_id']; ?> ?');"
+                                ;><i class="bi bi-x-square-fill"></i></a>
                         </td>
                     </tr>
                     <?php
@@ -110,10 +110,9 @@ else if ($page == 'santri') {
 </div>
 
 <?php
-}
 
-//--------------------------------- Detil ---------------------------------
-else if ($page == 'santri_detil') {
+//--------------------------------- Tambah ---------------------------------
+} else if ($page == 'device_tambah') {
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -130,82 +129,35 @@ else if ($page == 'santri_detil') {
         <div class="card">
             <div class="card-body">
 
-                <dl class="row">
-                    <dt class="col-sm-2">Id Santri</dt>
-                    <dd class="col-sm-10"><?php echo $d['id_santri']; ?></dd>
-                    <dt class="col-sm-2">Nama Santri</dt>
-                    <dd class="col-sm-10"><?php echo $d['nama_santri']; ?></dd>
-                    <dt class="col-sm-2">Nama Alias</dt>
-                    <dd class="col-sm-10"><?php echo $d['nama_alias']; ?></dd>
-                    <dt class="col-sm-2">Nama Guru</dt>
-                    <dd class="col-sm-10"><?php echo $d['nama_guru']; ?></dd>
-                    <dt class="col-sm-2">Kelas</dt>
-                    <dd class="col-sm-10"><?php echo $d['nama_kelas']; ?></dd>
-                </dl>
-
-            </div>
-        </div>
-    </section>
-</div>
-<?php
-
-    //--------------------------------- Tambah ---------------------------------
-} else if ($page == 'santri_tambah') {
-?>
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo  $judul; ?></h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="card">
-            <div class="card-body">
-
-                <form method="POST" action="<?php echo base_url('admin/santri_tambah'); ?>" class="form-horizontal">
+                <form method="POST" action="<?php echo base_url('admin/device_tambah'); ?>" class="form-horizontal">
 
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label for="nama_santri" class="col-sm-2 col-form-label">Nama Santri</label>
+                            <label for="device_id" class="col-sm-2 col-form-label">Device_Id</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_santri" id="nama_santri"
-                                    value="<?php echo set_value('nama_santri'); ?>" placeholder="Masukkan Nama Santri">
+                                <input type="text" class="form-control" name="device_id" id="device_id"
+                                    value="<?php echo set_value('device_id'); ?>" placeholder="Masukkan Device Id">
                                 <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_santri')); ?></span>
+                                    class="badge badge-warning"><?php echo strip_tags(form_error('device_id')); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="nama_alias" class="col-sm-2 col-form-label">Nama Alias</label>
+                            <label for="gh_number" class="col-sm-2 col-form-label">Pilih Greenhouse</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_alias" id="nama_alias"
-                                    value="<?php echo set_value('nama_alias'); ?>" placeholder="Masukkan Nama Alias">
-                                <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_alias')); ?></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="nama_alias" class="col-sm-2 col-form-label">Pilih Guru</label>
-                            <div class="col-sm-10">
-                                <?php echo form_dropdown('id_guru', $ddguru, set_value('id_guru')); ?>
+                                <?php echo form_dropdown('gh_number', $ddgh, set_value('Greenhouse')); ?>
                                 <span
                                     class="badge badge-warning"><?php echo strip_tags(form_error('id_guru')); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="id_kelas" class="col-sm-2 col-form-label">Pilih Kelas</label>
+                            <label for="node_id" class="col-sm-2 col-form-label">Pilih Kelas</label>
                             <div class="col-sm-10">
-                                <?php echo form_dropdown('id_kelas', $ddkelas, set_value('id_kelas')); ?>
+                                <?php echo form_dropdown('node_id', $ddnode, set_value('node_id')); ?>
                                 <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('id_kelas')); ?></span>
+                                    class="badge badge-warning"><?php echo strip_tags(form_error('noed_id')); ?></span>
                             </div>
                         </div>
 
@@ -222,7 +174,7 @@ else if ($page == 'santri_detil') {
 <?php
 
     //--------------------------------- Edit ---------------------------------
-} else if ($page == 'santri_edit') {
+} else if ($page == 'device_edit') {
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -239,48 +191,37 @@ else if ($page == 'santri_detil') {
         <div class="card">
             <div class="card-body">
 
-                <form method="POST" action="<?php echo base_url('admin/santri_edit/' . $d['id_santri']); ?>"
+                <form method="POST" action="<?php echo base_url('admin/device_edit/' . $d['device_id']); ?>"
                     class="form-horizontal">
 
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label for="nama_santri" class="col-sm-2 col-form-label">Nama Santri</label>
+                            <label for="device_id" class="col-sm-2 col-form-label">Nama Santri</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_santri" id="nama_santri"
-                                    value="<?php echo set_value('nama_santri', $d['nama_santri']); ?>"
-                                    placeholder="Masukkan Nama Santri">
+                                <input type="text" class="form-control" name="device_id" id="device_id"
+                                    value="<?php echo set_value('device_id', $d['device_id']); ?>"
+                                    placeholder="Device Id">
                                 <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_santri')); ?></span>
+                                    class="badge badge-warning"><?php echo strip_tags(form_error('device_id')); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="nama_alias" class="col-sm-2 col-form-label">Nama Alias</label>
+                            <label for="gh_number" class="col-sm-2 col-form-label">Pilih Greenhouse</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_alias" id="nama_alias"
-                                    value="<?php echo set_value('nama_alias', $d['nama_alias']); ?>"
-                                    placeholder="Masukkan Nama Alias">
+                                <?php echo form_dropdown('gh_number', $ddgh, set_value('Greenhouse', $d['gh_number'])); ?>
                                 <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_alias')); ?></span>
+                                    class="badge badge-warning"><?php echo strip_tags(form_error('device_id')); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="id_guru" class="col-sm-2 col-form-label">Pilih Guru</label>
+                            <label for="node_id" class="col-sm-2 col-form-label">Pilih Kelas</label>
                             <div class="col-sm-10">
-                                <?php echo form_dropdown('id_guru', $ddguru, set_value('id_guru', $d['id_guru']), 'class=form-control'); ?>
+                                <?php echo form_dropdown('node_id', $ddnode, set_value('node_id', $d['node_id'])); ?>
                                 <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('id_guru')); ?></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="id_kelas" class="col-sm-2 col-form-label">Pilih Kelas</label>
-                            <div class="col-sm-10">
-                                <?php echo form_dropdown('id_kelas', $ddkelas, set_value('id_kelas', $d['id_kelas']), 'class=form-control'); ?>
-                                <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('id_kelas')); ?></span>
+                                    class="badge badge-warning"><?php echo strip_tags(form_error('noed_id')); ?></span>
                             </div>
                         </div>
 
@@ -297,8 +238,8 @@ else if ($page == 'santri_detil') {
 <?php
 }
 
-//==================================== GURU ====================================
-else if ($page == 'guru') {
+//==================================== TOPIK ====================================
+else if ($page == 'topic') {
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -314,7 +255,7 @@ else if ($page == 'guru') {
     <section class="content">
         <div class="card">
             <div class="card-body">
-                <a href=<?php echo base_url("admin/guru_tambah") ?> class="btn btn-primary"
+                <a href=<?php echo base_url("admin/tambah_topik") ?> class="btn btn-primary"
                     style="margin-bottom:15px">New Topik</a>
                 <table class="table table-bordered">
                     <thead>
@@ -327,15 +268,16 @@ else if ($page == 'guru') {
                     </thead>
 
                     <?php
-                        foreach ($guru as $d) { ?>
+                        $i=0; 
+                        foreach ($topic as $d) { $i++;?>
                     <tr>
-                        <td><?php echo $d['id_guru'] ?></td>
-                        <td><?php echo $d['nama_guru'] ?></td>
+                        <td><?php echo $i ?></td>
+                        <td><?php echo $d['topic_name'] ?></td>
                         <td>
-                            <a href=<?php echo base_url("admin/guru_edit/") . $d['id_guru']; ?>><i
+                            <a href=<?php echo base_url("admin/topik_edit/") . $d['id']; ?>><i
                             class="fas fa-pencil-alt"></i></a>
-                            <a href=<?php echo base_url("admin/guru_hapus/") . $d['id_guru']; ?>
-                                onclick="return confirm('Yakin menghapus Guru : <?php echo $d['nama_guru']; ?> ?');" ;><i class="fas fa-trash-alt"></i></a>
+                            <a href=<?php echo base_url("admin/topik_hapus/") . $d['id']; ?>
+                                onclick="return confirm('Yakin menghapus data Topik : <?php echo $d['topic_name']; ?> ?');" ;><i class="fas fa-trash-alt"></i></a>
 
                         </td>
                     </tr>
@@ -353,7 +295,7 @@ else if ($page == 'guru') {
 }
 
 //--------------------------------- TAMBAH ---------------------------------
-else if ($page == 'guru_tambah') {
+else if ($page == 'tambah_topik') {
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -375,17 +317,17 @@ else if ($page == 'guru_tambah') {
 
                 <?php echo validation_errors(); ?>
 
-                <form method="POST" action="<?php echo base_url('admin/guru_tambah'); ?>" class="form-horizontal">
+                <form method="POST" action="<?php echo base_url('admin/tambah_topik'); ?>" class="form-horizontal">
 
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label for="nama_guru" class="col-sm-2 col-form-label">Nama Guru</label>
+                            <label for="topic_name" class="col-sm-2 col-form-label">Topic Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_guru" id="nama_guru"
-                                    value="<?php echo set_value('nama_guru'); ?>" placeholder="Masukkan Nama Guru">
+                                <input type="text" class="form-control" name="topic_name" id="topic_name"
+                                    value="<?php echo set_value('topic_name'); ?>" placeholder="Input Topic Name">
                                 <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_guru')); ?></span>
+                                    class="badge badge-warning"><?php echo strip_tags(form_error('topic_name')); ?></span>
                             </div>
                         </div>
 
@@ -395,9 +337,6 @@ else if ($page == 'guru_tambah') {
                     </div>
                 </form>
 
-            </div>
-            <div class="card-footer">
-                Create By Agus SBN @2022
             </div>
         </div>
     </section>
@@ -407,7 +346,7 @@ else if ($page == 'guru_tambah') {
 }
 
 //--------------------------------- EDIT ---------------------------------
-else if ($page == 'guru_edit') {
+else if ($page == 'topik_edit') {
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -429,19 +368,19 @@ else if ($page == 'guru_edit') {
 
                 <?php echo validation_errors(); ?>
 
-                <form method="POST" action="<?php echo base_url('admin/guru_edit/' . $d['id_guru']); ?>"
+                <form method="POST" action="<?php echo base_url('admin/topik_edit/' . $d['id']); ?>"
                     class="form-horizontal">
 
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label for="nama_guru" class="col-sm-2 col-form-label">Nama Guru</label>
+                            <label for="topic_name" class="col-sm-2 col-form-label">Topic Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_guru" id="nama_guru"
-                                    value="<?php echo set_value('nama_guru', $d['nama_guru']); ?>"
-                                    placeholder="Masukkan Nama Guru">
+                                <input type="text" class="form-control" name="topic_name" id="topic_name"
+                                    value="<?php echo set_value('topic_name', $d['topic_name']); ?>"
+                                    placeholder="Masukkan Nama Topic">
                                 <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_guru')); ?></span>
+                                    class="badge badge-warning"><?php echo strip_tags(form_error('topic_name')); ?></span>
                             </div>
                         </div>
 
@@ -452,9 +391,6 @@ else if ($page == 'guru_edit') {
                 </form>
 
             </div>
-            <div class="card-footer">
-                Create By Agus SBN @2022
-            </div>
         </div>
     </section>
 </div>
@@ -462,167 +398,8 @@ else if ($page == 'guru_edit') {
 <?php
 }
 
-//==================================== kelas ====================================
-else if ($page == 'kelas') {
-?>
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo  $judul; ?></h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="card">
-            <div class="card-body">
-                <a href=<?php echo base_url("admin/kelas_tambah") ?> class="btn btn-primary"
-                    style="margin-bottom:15px">Tambah Kelas</a>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Id Kelas</th>
-                            <th>Nama Kelas</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-
-                    <?php
-                        foreach ($kelas as $d) { ?>
-                    <tr>
-                        <td><?php echo $d['id_kelas'] ?></td>
-                        <td><?php echo $d['nama_kelas'] ?></td>
-                        <td>
-                            <a href=<?php echo base_url("admin/kelas_edit/") . $d['id_kelas']; ?>>Edit </a>
-                            <a href=<?php echo base_url("admin/kelas_hapus/") . $d['id_kelas']; ?>
-                                onclick="return confirm('Yakin menghapus kelas : <?php echo $d['nama_kelas']; ?> ?');"
-                                ;> Hapus</a>
-                        </td>
-                    </tr>
-                    <?php
-                        }
-                        ?>
-                </table>
-
-            </div>
-        </div>
-    </section>
-</div>
-<?php
-}
-//--------------------------------- TAMBAH ---------------------------------
-else if ($page == 'kelas_tambah') {
-?>
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo  $judul; ?></h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Isikan Data Dengan Benar</h3>
-            </div>
-            <div class="card-body">
-
-                <?php echo validation_errors(); ?>
-
-                <form method="POST" action="<?php echo base_url('admin/kelas_tambah'); ?>" class="form-horizontal">
-
-                    <div class="card-body">
-
-                        <div class="form-group row">
-                            <label for="nama_kelas" class="col-sm-2 col-form-label">Nama Kelas</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_kelas" id="nama_kelas"
-                                    value="<?php echo set_value('nama_kelas'); ?>" placeholder="Masukkan Nama Kelas">
-                                <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_kelas')); ?></span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-info">Simpan</button>
-                    </div>
-                </form>
-
-            </div>
-            <div class="card-footer">
-                Create By Agus SBN @2022
-            </div>
-        </div>
-    </section>
-</div>
-<?php
-}
-//--------------------------------- EDIT ---------------------------------
-else if ($page == 'kelas_edit') {
-?>
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo  $judul; ?></h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Isikan Data Dengan Benar</h3>
-            </div>
-            <div class="card-body">
-
-                <?php echo validation_errors(); ?>
-
-                <form method="POST" action="<?php echo base_url('admin/kelas_edit/' . $d['id_kelas']); ?>"
-                    class="form-horizontal">
-
-                    <div class="card-body">
-
-                        <div class="form-group row">
-                            <label for="nama_guru" class="col-sm-2 col-form-label">Nama Kelas</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_kelas" id="nama_kelas"
-                                    value="<?php echo set_value('nama_kelas', $d['nama_kelas']); ?>"
-                                    placeholder="Masukkan Nama Kelas">
-                                <span
-                                    class="badge badge-warning"><?php echo strip_tags(form_error('nama_kelas')); ?></span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-info">Simpan</button>
-                    </div>
-                </form>
-
-            </div>
-            <div class="card-footer">
-                Create By Agus SBN @2022
-            </div>
-        </div>
-    </section>
-</div>
-
-<?php
-}
-
-//================================ LIST DATA SANTRI PER KELAS ================================
-else if ($page == 'list_santri_per_kelas') {
+//================================ SENSOR DATA LOGGING ================================
+else if ($page == 'data_logging') {
 ?>
 <div class="content-wrapper">
     <section class="content-header">
@@ -639,35 +416,37 @@ else if ($page == 'list_santri_per_kelas') {
         <div class="card">
             <div class="card-body">
                 <div class="form-group">
+                    
                     <div class="row">
                         <div class="col-sm-2">
-                            Pilih Kelas
+                            Pilih Device_Id
                         </div>
                         <div class="col-sm-2">
-                            <?php echo form_dropdown('id_kelas', $ddkelas, set_value('id_kelas'), 'id="pd_kelas" class="form-control"'); ?>
+                            <?php echo form_dropdown('device_id', $dddevice, set_value('device_id'), 'id="pd_kelas" class="form-control"'); ?>
                         </div>
                     </div>
                     <div class="col-sm-8">
                     </div>
-                </div>
-                <!-- <button id="pilih_kelas" class='btn btn-info btn-sm' style="margin-bottom: 5px">Tampilkan</button> -->
+                </div>            
+                
                 <table id="datatable_01" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Id Santri</th>
-                            <th>Nama</th>
-                            <th>Aksi</th>
+                            <th>Device Id</th>
+                            <th>Sensor Value</th>
+                            <th>Greenhouse</th>
+                            <th>Node_Id</th>
+                            <th>Time</th>
                         </tr>
                     </thead>
                     <?php
-                        foreach ($santri as $d) { ?>
+                    foreach ($sensor as $d) { ?>
                     <tr>
-                        <td><?php echo $d['id_santri'] ?></td>
-                        <td><?php echo $d['nama_santri'] ?></td>
-                        <td>
-                            <a href=<?php echo base_url("admin/santri_detil/") . $d['id_santri']; ?>>
-                                <i class="fas fa-search-plus"></i></a>
-                        </td>
+                        <td><?php echo $d['device_id'] ?></td>
+                        <td><?php echo $d['value_sensor'] ?></td>
+                        <td><?php echo $d['greenhouse'] ?></td>
+                        <td><?php echo $d['node_id'] ?></td>
+                        <td><?php echo $d['timestamp'] ?></td>
                     </tr>
                     <?php
                         }
@@ -680,58 +459,4 @@ else if ($page == 'list_santri_per_kelas') {
 
 <?php
 }
-
-//==================================== Sumbangan ====================================
-else if ($page == 'sumbangan') {
-?>
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?php echo  $judul; ?></h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Id Sumbangan</th>
-                            <th>Tanggal</th>
-                            <th>Nama Santri</th>
-                            <th>Kelas</th>
-                            <th>Jumlah</th>
-                            <th>Bendahara</th>
-                        </tr>
-                    </thead>
-
-                    <?php
-                        foreach ($sumbangan as $d) { ?>
-                    <tr>
-                        <td><?php echo $d['id_sumbangan'] ?></td>
-                        <td><?php echo $d['tanggal'] ?></td>
-                        <td><?php echo $d['nama_santri'] ?></td>
-                        <td><?php echo $d['nama_kelas'] ?></td>
-                        <td><?php echo $d['jumlah'] ?></td>
-                        <td><?php echo $d['username'] ?></td>
-                    </tr>
-                    <?php
-                        }
-                        ?>
-                </table>
-
-            </div>
-        </div>
-    </section>
-</div>
-
-<?php
-}
-
-
 ?>

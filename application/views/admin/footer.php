@@ -1,11 +1,3 @@
-  <!-- <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    [Coding By agus_sbn@poliban.ac.id @2022]
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer> -->
-
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -48,22 +40,42 @@
         "responsive": true,
         "dom": 'Blfrtip',
         // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        "buttons": ["copy", "excel", "pdf", "print"]
+        "buttons": ["excel", "pdf", "print"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
  
       // $("#pilih_kelas").click(function() {
       //   var pilih = $("#pd_kelas").val();
-      //   window.location.href = "<?php echo base_url('admin/list_santri_per_kelas/'); ?>" + pilih;
+      //   window.location.href = "<?php echo base_url('admin/data_logging/'); ?>" + pilih;
       // });
 
       $("#pd_kelas").change(function() {
         var end = this.value;
         var firstDropVal = $('#pd_kelas').val();
-        window.location.href = "<?php echo base_url('admin/list_santri_per_kelas/'); ?>" + firstDropVal;
+        window.location.href = "<?php echo base_url('admin/data_logging/'); ?>" + firstDropVal;
       });
 
     });
+
+    function sortTable(columnIndex) {
+        const table = document.getElementById("manualTable");
+        const rows = Array.from(table.rows).slice(1); // Exclude header row
+        const isAscending = table.getAttribute("data-sort") !== "asc";
+        
+        rows.sort((rowA, rowB) => {
+            const cellA = rowA.cells[columnIndex].innerText.toLowerCase();
+            const cellB = rowB.cells[columnIndex].innerText.toLowerCase();
+
+            if (isNaN(cellA) || isNaN(cellB)) {
+                return cellA > cellB ? (isAscending ? 1 : -1) : (isAscending ? -1 : 1);
+            } else {
+                return (isAscending ? 1 : -1) * (Number(cellA) - Number(cellB));
+            }
+        });
+
+        rows.forEach(row => table.tBodies[0].appendChild(row)); // Reorder rows
+        table.setAttribute("data-sort", isAscending ? "asc" : "desc");
+    }
   </script>
 
 

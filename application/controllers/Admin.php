@@ -25,132 +25,129 @@ class Admin extends CI_Controller
 	{
 		$data['judul']	= 'Selamat Datang di Dashboard IoT by Arif';
 		$data['page']	= 'home';
-		$data['jml_santri']	= $this->m_umum->jumlah_record_tabel('santri');
-		$data['jml_guru']	= $this->m_umum->jumlah_record_tabel('guru');
+		$data['jml_topic']	= $this->m_umum->jumlah_record_tabel('topik');
+		$data['jml_device']	= $this->m_umum->jumlah_record_tabel('device_list');
 		$this->tampil($data);
 	}
 
-	//============================== SANTRI ==============================
-	public function santri()
+	//============================== DEVICE_ID ==============================
+	public function device_id()
 	{
-		$data['judul'] = 'Data Santri TPA Aisyiah';
-		$data['page'] = 'santri';
-		$data['santri'] = $this->m_admin->dt_santri();
-		$this->tampil($data);
-	}
-	public function santri_detil($id)
-	{
-		$data['judul'] = 'Detil Data Santri TPA Aisyiah';
-		$data['page'] = 'santri_detil';
-		$data['d'] = $this->m_admin->dt_santri_detil($id);
+		$data['judul'] = 'Data Device Id';
+		$data['page'] = 'device_id';
+		$data['device_id'] = $this->m_admin->dt_device();
 		$this->tampil($data);
 	}
 
-	public function santri_tambah()
+	public function device_tambah()
 	{
-		$data['judul'] = 'Tambah Data Santri';
-		$data['page'] = 'santri_tambah';
+		$data['judul'] = 'Tambah Device Id';
+		$data['page'] = 'device_tambah';
 
 		$this->form_validation->set_rules(
-			'nama_santri',
-			'Nama Santri',
-			'required|min_length[3]|max_length[30]',
+			'device_id',
+			'Device_id',
+			'required|min_length[6]|max_length[30]',
 			array('required' => '%s harus diisi.')
 		);
-		$this->form_validation->set_rules('nama_alias', 'Isikan Nama Alias', 'required');
-		$this->form_validation->set_rules('id_guru', 'Pilih id guru', 'callback_dd_cek');
-
-		$data['ddguru'] = $this->m_admin->dropdown_guru();
-		$data['ddkelas'] = $this->m_admin->dropdown_kelas();
+	
+		$data['ddgh'] = $this->m_admin->dropdown_gh();
+		$data['ddnode'] = $this->m_admin->dropdown_node();
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->tampil($data);
 		} else {
-			$this->m_admin->dt_santri_tambah();
-			redirect(base_url('admin/santri'));
+			$this->m_admin->dt_device_tambah();
+			redirect(base_url('admin/device_id'));
 		}
 	}
-	public function santri_edit($id = FALSE)
+
+	public function device_edit($id = FALSE)
 	{
-		$data['judul'] = 'Edit Data Santri';
-		$data['page'] = 'santri_edit';
+		$data['judul'] = 'Tambah Device Id';
+		$data['page'] = 'device_edit';
+
 		$this->form_validation->set_rules(
-			'nama_santri',
-			'Nama Santri',
-			'required|min_length[3]|max_length[30]',
+			'device_id',
+			'Device_id',
+			'required|min_length[0]|max_length[30]',
 			array('required' => '%s harus diisi.')
 		);
-		$this->form_validation->set_rules('nama_alias', 'Isikan Nama Alias', 'required');
-		$this->form_validation->set_rules('id_guru', 'Pilih id guru', 'callback_dd_cek');
-
-		$data['ddguru'] = $this->m_admin->dropdown_guru();
-		$data['ddkelas'] = $this->m_admin->dropdown_kelas();
-		$data['d'] = $this->m_umum->cari_data('santri', 'id_santri', $id);
+	
+		$data['ddgh'] = $this->m_admin->dropdown_gh();
+		$data['ddnode'] = $this->m_admin->dropdown_node();
+		$data['d'] = $this->m_umum->cari_data('device_list', 'device_id', $id);
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->tampil($data);
 		} else {
-			$this->m_admin->dt_santri_edit($id);
-			redirect(base_url('admin/santri'));
+			$this->m_admin->dt_device_edit($id);
+			redirect(base_url('admin/device_id'));
 		}
 	}
 
-	public function santri_hapus($id)
+	public function device_hapus($id)
 	{
-		$this->m_umum->hapus_data('santri', 'id_santri', $id);
-		redirect(base_url('admin/santri'));
+		$this->m_admin->sensor_del($id);
+		$this->m_umum->hapus_data('device_list', 'device_id', $id);
+		redirect(base_url('admin/device_ID'));
+	}
+	public function data_hapus($id)
+	{
+		$this->m_admin->sensor_del($id);
+		redirect(base_url('admin/device_ID'));
 	}
 
 
-	//============================== GURU ==============================
-	public function guru()
+	//============================== Topic ==============================
+	public function topic()
 	{
-		$data['judul'] = 'Data Subscription';
-		$data['page'] = 'guru';
-		$data['guru'] = $this->m_admin->dt_guru();
+		$data['judul'] = 'Data Topic';
+		$data['page'] = 'topic';
+		$data['topic'] = $this->m_admin->dt_topic();
 		$this->tampil($data);
 	}
 
-	public function guru_tambah()
+	public function tambah_topik()
 	{
-		$data['judul'] = 'Tambah Data Guru TPA Aisyiah';
-		$data['page'] = 'guru_tambah';
+		$data['judul'] = 'Add New Topic';
+		$data['page'] = 'tambah_topik';
 
-		$this->form_validation->set_rules('nama_guru', 'Isikan Nama guru', 'required');
+		$this->form_validation->set_rules('topic_name', 'Isikan Nama guru', 'required');
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->tampil($data);
 		} else {
-			$this->m_admin->guru_tambah();
-			redirect(base_url('admin/guru'));
+			$this->m_admin->topik_tambah();
+			redirect(base_url('admin/topic'));
 		}
 	}
 
-	public function guru_edit($id = FALSE)
+	public function topik_edit($id = FALSE)
 	{
 		$data['judul'] = 'EDIT data Guru TPA Aisyiah Attaqwa';
-		$data['page'] = 'guru_edit';
+		$data['page'] = 'topik_edit';
 
 		$this->form_validation->set_rules(
-			'nama_guru',
-			'Nama Guru',
-			'required|min_length[3]|max_length[30]',
+			'topic_name',
+			'Topic Name',
+			'required|min_length[0]|max_length[30]',
 			array('required' => '%s harus diisi.')
 		);
-		$data['d'] = $this->m_umum->cari_data('guru', 'id_guru', $id);
+		$data['d'] = $this->m_umum->cari_data('topik', 'id', $id);
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->tampil($data);
 		} else {
-			$this->m_admin->dt_guru_edit($id);
-			redirect(base_url('admin/guru'));
+			$this->m_admin->dt_topik_edit($id);
+			redirect(base_url('admin/topic'));
 		}
 	}
 
-	public function guru_hapus($id)
+	public function topik_hapus($id)
 	{
-		$this->m_umum->hapus_data('guru', 'id_guru', $id);
-		redirect(base_url('admin/guru'));
+		$this->m_umum->hapus_data('topik', 'id', $id);
+		redirect(base_url('admin/topic'));
 	}
 
 	//============================== kelas ==============================
@@ -204,27 +201,20 @@ class Admin extends CI_Controller
 		redirect(base_url('admin/kelas'));
 	}
 
-	//============================== LIST Santri per kelas ==============================
-	public function list_santri_per_kelas($id = NULL)
+	//============================== DATA LOGGING ==============================
+	public function data_logging($id = NULL)
 	{
-		$data['judul'] = 'Data Santri Tiap kelas di TPA Aisyiah';
-		$data['page'] = 'list_santri_per_kelas';
-		$data['ddkelas'] = $this->m_admin->dropdown_kelas();
-		$data['santri'] = $this->m_admin->dt_santri_per_kelas($id);
-		$data['kelas'] = $this->m_admin->dt_kelas();
+		$data['judul'] = 'Rekap Data Sensor';
+		$data['page'] = 'data_logging';
+		$data['dddevice'] = $this->m_admin->dropdown_device();
+		$data['sensor'] = $this->m_admin->dt_sensor($id);
 		$this->tampil($data);
 	}
-
-	//============================== Sumbangan ==============================
-	public function sumbangan()
+	public function sensor_hapus($id)
 	{
-		$data['judul'] = 'Data Sumbangan TPA Aisyiah';
-		$data['page'] = 'sumbangan';
-		$data['sumbangan'] = $this->m_admin->dt_sumbangan();
-		$this->tampil($data);
+		$this->m_umum->hapus_data('topik', 'id', $id);
+		redirect(base_url('admin/topic'));
 	}
-
-
 
 	//============ Tools ===============
 	function dd_cek($str)    //Untuk Validasi DropDown jika tidak dipilih
